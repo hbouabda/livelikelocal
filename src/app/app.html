@@ -1,0 +1,119 @@
+<!-- LiveLikeLocal GYG-inspired Header -->
+<header class="bg-white border-b border-slate-100 sticky top-0 z-50 shadow-sm" id="global-header">
+  <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+    
+    <!-- Left Logo and Branded Title -->
+    <a [routerLink]="['/']" class="flex items-center gap-3 group focus:outline-none" id="header-logo-lnk">
+      <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-serif font-extrabold text-lg shadow-md shadow-primary/20 group-hover:scale-105 smooth-hover select-none">
+        L
+      </div>
+      <div class="leading-none">
+        <span class="text-xl font-serif font-extrabold tracking-tight text-slate-900 block group-hover:text-primary transition-colors">
+          LiveLikeLocal
+        </span>
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5 block">
+          Expériences d'Exception
+        </span>
+      </div>
+    </a>
+
+    <!-- Middle navigational links -->
+    <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600" id="header-nav-menu">
+      <a [routerLink]="['/']" routerLinkActive="text-primary" [routerLinkActiveOptions]="{exact: true}" class="hover:text-primary transition-colors">Accueil</a>
+      <a [routerLink]="['/guides']" routerLinkActive="text-primary" class="hover:text-primary transition-colors">Explorer les Guides</a>
+      <a [routerLink]="['/dashboard']" routerLinkActive="text-primary" class="hover:text-primary transition-colors">Console Pro Local</a>
+    </nav>
+
+    <!-- Right Profile Status and Role Switch Panel -->
+    <div class="flex items-center gap-4" id="header-user-badge">
+      
+      <!-- Role feedback visual tag -->
+      <button (click)="toggleUserRole()"
+              class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 hover:border-primary text-xs font-semibold text-slate-700 hover:text-primary smooth-hover"
+              id="role-switch-pill">
+        <mat-icon class="text-sm">cached</mat-icon>
+        <span>Mode : </span>
+        <strong class="text-primary">
+          {{ dataService.currentUser().role === 'traveler' ? 'Voyageur' : 'Guide Local' }}
+        </strong>
+      </button>
+
+      <!-- Dashboard shortcut -->
+      @if (dataService.currentUser().role === 'guide') {
+        <a [routerLink]="['/dashboard']" 
+           class="bg-secondary hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded-xl text-xs flex items-center gap-1.5 smooth-hover"
+           id="shortcut-pro-console">
+          <mat-icon class="text-sm">dashboard</mat-icon>
+          <span>Ma Console</span>
+        </a>
+      }
+
+      <!-- User Avatar and Initials -->
+      <div class="flex items-center gap-2 border-l border-slate-100 pl-4" id="avatar-user-header">
+        <div class="w-9 h-9 rounded-full overflow-hidden border border-slate-200 select-none shadow-sm bg-slate-50">
+          <img [src]="dataService.currentUser().avatar" alt="User avatar" class="w-full h-full object-cover" referrerpolicy="no-referrer" />
+        </div>
+        <div class="hidden lg:block text-left leading-none">
+          <span class="text-xs font-bold text-slate-800 block">{{ dataService.currentUser().name }}</span>
+          <span class="text-[9px] text-slate-400 mt-0.5 block">Compte actif</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</header>
+
+<!-- Main viewport router wrapper -->
+<main class="min-h-[calc(100vh-250px)]" id="route-contents-outer">
+  <router-outlet />
+</main>
+
+<!-- Cozy GetYourGuide-styled Footers -->
+<footer class="bg-brand-dark text-slate-400 py-16 border-t border-slate-800" id="global-footer">
+  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+    <div class="space-y-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-serif font-extrabold text-md select-none">
+          L
+        </div>
+        <span class="text-white font-serif font-extrabold text-lg tracking-tight">LiveLikeLocal</span>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed font-light">
+        Découvrez et réservez des visites de quartiers authentiques guidées par de vrais résidents d'exception. Vivez la cité hors des sentiers battus !
+      </p>
+      <div class="text-xs text-slate-500 font-semibold select-none">
+        © 2026 LiveLikeLocal Inc. Tous droits réservés.
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <h4 class="text-white font-bold text-xs uppercase tracking-widest select-none">Destinations Phares</h4>
+      <ul class="space-y-2 text-xs font-light">
+        <li><a [routerLink]="['/guides']" [queryParams]="{city: 'paris'}" class="hover:text-primary transition-colors">Paris caché gourmand</a></li>
+        <li><a [routerLink]="['/guides']" [queryParams]="{city: 'tokyo'}" class="hover:text-primary transition-colors">Tokyo néons rétro-gaming</a></li>
+        <li><a [routerLink]="['/guides']" [queryParams]="{city: 'marrakech'}" class="hover:text-primary transition-colors">Marrakech souks herboristes</a></li>
+        <li><a [routerLink]="['/guides']" [queryParams]="{city: 'rome'}" class="hover:text-primary transition-colors">Rome trattoria artisanale</a></li>
+      </ul>
+    </div>
+
+    <div class="space-y-3">
+      <h4 class="text-white font-bold text-xs uppercase tracking-widest select-none">Espace Guide Professionnel</h4>
+      <ul class="space-y-2 text-xs font-light">
+        <li><button (click)="dataService.switchUserRole('guide', 'g-chloe')" class="hover:text-primary transition-colors text-left focus:outline-none">Devenir Hôte Certifié</button></li>
+        <li><a [routerLink]="['/dashboard']" class="hover:text-primary transition-colors">Accéder à ma Console Pro</a></li>
+        <li><span class="text-slate-550 block">Charte de Qualité Locale</span></li>
+        <li><span class="text-slate-550 block">Conditions Générales d'Hôtes</span></li>
+      </ul>
+    </div>
+
+    <div class="space-y-3">
+      <h4 class="text-white font-bold text-xs uppercase tracking-widest select-none">Support & Confiance</h4>
+      <ul class="space-y-2 text-xs font-light">
+        <li class="flex items-center gap-1.5"><mat-icon class="text-primary text-sm select-none">verified_user</mat-icon> Paiements 100% Sécurisés</li>
+        <li class="flex items-center gap-1.5"><mat-icon class="text-primary text-sm select-none">schedule</mat-icon> Assistance Voyageurs h24</li>
+        <li class="flex items-center gap-1.5"><mat-icon class="text-primary text-sm select-none">undo</mat-icon> Remboursement Flexible</li>
+      </ul>
+    </div>
+  </div>
+</footer>

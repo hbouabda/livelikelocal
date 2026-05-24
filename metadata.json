@@ -1,0 +1,6 @@
+{
+  "name": "LiveLikeLocal",
+  "description": "Plateforme de mise en relation entre voyageurs et guides locaux authentiques (inspiré par GetYourGuide)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
